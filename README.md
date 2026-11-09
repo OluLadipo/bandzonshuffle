@@ -1,58 +1,66 @@
-Bandz on Shuffle
+[README (3).md](https://github.com/user-attachments/files/34595922/README.3.md)
+# Bandz on Shuffle
 
-Your Nano is back on. Silly Bandz are falling onto the click wheel. Catch one and the song plays. Miss one and you hear it.
+A 2009-nostalgia rhythm game. Silly Bandz drop onto an iPod-style click wheel, and every catch plays the next note of the song.
 
-🎧 Play it now
-If you were there in 2009
+**Play it:** https://bandzonshuffle.netlify.app/
 
-You remember trading bandz at the lunch table. Spinning that wheel on the bus. Fighting over who made your Top 8.
+## How it plays
 
-So the tracks are named after all of it: Recess, Bus Ride Home, Top 8 and Credits. Each one paints the whole screen a new neon color, straight off an old iPod billboard.
+- Spin the click wheel to line up with falling bandz and catch them
+- Each catch plays the track, so a clean run sounds like the full song
+- Tracks: Recess, Bus Ride Home, Top 8, Credits (plus a No Sound mode)
+- The background color shifts per track, styled like a 2000s iPod billboard
 
-What everyone's chasing
-PERFECT catches. Close enough only gets you a NICE.
-Combos. String catches together and your points climb to 4x.
-Crown mode. Fill the glow meter and everything doubles.
-A full bag. Every band you catch gets saved. Your bag only fills if you play.
+## Built with
 
-Somebody you know already has a better score than you. Just saying.
+- A single `index.html` file: HTML, CSS and vanilla JavaScript, no build step
+- Web Audio API for all music and sound, generated live in the browser
+- `localStorage` for saving progress and scores on your device
+- Google Fonts (Archivo Black, Figtree)
 
-Behind the scenes
+## Behind the scenes
 
-A few crumbs from the code. The rest stays in the vault.
+A few pieces of how it works. The full source is in `index.html` if you want to dig.
 
-Reading the click wheel. Your finger's position turns into an angle around the center of the wheel, the same way a real iPod tracked your thumb.
+**Reading the click wheel.** Your finger's position gets turned into an angle around the center of the wheel, the same way a real iPod tracked your thumb.
 
-js
+```js
 function angleOf(e){
   var r = wheel.getBoundingClientRect();
   return Math.atan2(e.clientY - (r.top + r.height/2),
                     e.clientX - (r.left + r.width/2)) * 180 / Math.PI;
 }
+```
 
-Perfect, Nice or Miss. When a band lands, the game measures how far your marker is from it. Tighter means more points.
+**Perfect, Nice or Miss.** When a band lands, the game checks how far your marker is from it on the wheel. Tighter means more points.
 
-js
+```js
 var d = angDiff(n.a, markerA), sp = span();
 if (d <= sp*0.45)   hit(n, 100, "PERFECT");
 else if (d <= sp+2) hit(n, 50, "NICE");
 else                fb("MISS");
+```
 
-Music with zero audio files. Every note, kick and clap is built live in your browser with the Web Audio API. Notes start as MIDI numbers and get turned into pitch:
+**Music with zero audio files.** Every note, kick and clap is built live with the Web Audio API. Notes start as MIDI numbers and get converted to pitch:
 
-js
+```js
 function freq(m){ return 440 * Math.pow(2, (m - 69) / 12); }
+```
 
-The kick drum? A sine wave that drops from 160Hz to 44Hz in about a tenth of a second.
+A kick drum is just a sine wave that drops fast from 160Hz to 44Hz.
 
-How the songs are written, how the bandz fall in time, how Crown mode works... you'll have to play to figure that out.
+**Your bag of bandz.** Collected bandz, best scores and your color pick are saved right in the browser, so they're still there next time.
 
-Built with
+## Run it locally
 
-One HTML file. Vanilla JavaScript, the Web Audio API, and a canvas. No frameworks, no audio files, no build step.
+Download `index.html` and open it in any modern browser. That's it.
 
-Made by
+## Deploy
 
-Olu Ladipo Portfolio · LinkedIn
+Hosted on Netlify. Connecting this repo to the Netlify project redeploys the site on every push to `main`.
 
-🎧 Your bandz are waiting
+## Author
+
+Olu Ladipo
+[Portfolio](https://oluladportfolio.netlify.app) · [LinkedIn](https://www.linkedin.com/in/oluladipoinsights/)
